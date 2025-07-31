@@ -8,7 +8,7 @@ interface AddTodoFormProps {
     onAddTodo: (title: string) => void;
 }
 
-export function AddTodoForm({ onAddTodo }: AddTodoFormProps) {
+const AddTodoForm = ({ onAddTodo }: AddTodoFormProps) => {
     const [title, setTitle] = useState('');
 
     // 處理提交表單
@@ -41,4 +41,6 @@ export function AddTodoForm({ onAddTodo }: AddTodoFormProps) {
             </CardContent>
         </Card>
     );
-}
+};
+
+export default AddTodoForm;

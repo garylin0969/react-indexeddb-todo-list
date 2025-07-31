@@ -1,9 +1,9 @@
-import { AddTodoForm } from './components/AddTodoForm';
-import { TodoList } from './components/TodoList';
-import { TodoStats } from './components/TodoStats';
-import { useTodos } from './hooks/useTodos';
+import AddTodoForm from '@/components/AddTodoForm';
+import TodoList from '@/components/TodoList';
+import TodoStats from '@/components/TodoStats';
+import { useTodos } from '@/hooks/useTodos';
 
-function App() {
+const App = () => {
     const { todos, loading, error, addTodo, toggleTodo, deleteTodo, updateTodoTitle, clearAllTodos, stats } =
         useTodos();
 
@@ -35,6 +35,6 @@ function App() {
             </div>
         </div>
     );
-}
+};
 
 export default App;

@@ -1,10 +1,10 @@
 import { Trash2, Edit, Save, X } from 'lucide-react';
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
 import { type TodoItem as TodoItemType } from '@/lib/indexeddb';
-import { Button } from './ui/button';
-import { Card, CardContent } from './ui/card';
-import { Checkbox } from './ui/checkbox';
-import { Input } from './ui/input';
 
 interface TodoItemProps {
     todo: TodoItemType;
@@ -13,7 +13,7 @@ interface TodoItemProps {
     onUpdateTitle: (id: string, newTitle: string) => void;
 }
 
-export function TodoItem({ todo, onToggle, onDelete, onUpdateTitle }: TodoItemProps) {
+const TodoItem = ({ todo, onToggle, onDelete, onUpdateTitle }: TodoItemProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editTitle, setEditTitle] = useState(todo.title);
 
@@ -112,4 +112,6 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdateTitle }: TodoItemPr
             </CardContent>
         </Card>
     );
-}
+};
+
+export default TodoItem;

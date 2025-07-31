@@ -7,7 +7,7 @@ interface TodoStatsProps {
     pending: number;
 }
 
-export function TodoStats({ total, completed, pending }: TodoStatsProps) {
+const TodoStats = ({ total, completed, pending }: TodoStatsProps) => {
     return (
         <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
             <Card>
@@ -44,4 +44,6 @@ export function TodoStats({ total, completed, pending }: TodoStatsProps) {
             </Card>
         </div>
     );
-}
+};
+
+export default TodoStats;

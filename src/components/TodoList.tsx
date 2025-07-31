@@ -1,8 +1,8 @@
 import { Loader2, AlertCircle, Trash2 } from 'lucide-react';
+import TodoItem from '@/components/TodoItem';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { type TodoItem as TodoItemType } from '@/lib/indexeddb';
-import { TodoItem } from './TodoItem';
-import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 
 interface TodoListProps {
     todos: TodoItemType[];
@@ -14,7 +14,7 @@ interface TodoListProps {
     onClearAll: () => void;
 }
 
-export function TodoList({ todos, loading, error, onToggle, onDelete, onUpdateTitle, onClearAll }: TodoListProps) {
+const TodoList = ({ todos, loading, error, onToggle, onDelete, onUpdateTitle, onClearAll }: TodoListProps) => {
     // 載入狀態
     if (loading) {
         return (
@@ -81,4 +81,6 @@ export function TodoList({ todos, loading, error, onToggle, onDelete, onUpdateTi
             </CardContent>
         </Card>
     );
-}
+};
+
+export default TodoList;

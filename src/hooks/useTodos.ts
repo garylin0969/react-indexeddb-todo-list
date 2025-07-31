@@ -1,5 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
-import { type TodoItem, todoDB } from '@/lib/indexeddb';
+import {
+    type TodoItem,
+    initDatabase,
+    getAllTodos,
+    addTodo,
+    toggleTodo,
+    deleteTodo,
+    updateTodo,
+    clearAllTodos,
+} from '@/lib/indexeddb';
 
 // 自定義 Hook 用於管理待辦事項
 export function useTodos() {
@@ -12,8 +21,8 @@ export function useTodos() {
         try {
             setLoading(true);
             setError(null);
-            await todoDB.init();
-            const allTodos = await todoDB.getAllTodos();
+            await initDatabase();
+            const allTodos = await getAllTodos();
             setTodos(allTodos);
         } catch (err) {
             setError(err instanceof Error ? err.message : '載入待辦事項時發生錯誤');
@@ -23,10 +32,10 @@ export function useTodos() {
     }, []);
 
     // 新增待辦事項
-    const addTodo = useCallback(async (title: string) => {
+    const handleAddTodo = useCallback(async (title: string) => {
         try {
             setError(null);
-            const newTodo = await todoDB.addTodo(title);
+            const newTodo = await addTodo(title);
             setTodos((prev) => [...prev, newTodo]);
         } catch (err) {
             setError(err instanceof Error ? err.message : '新增待辦事項時發生錯誤');
@@ -34,10 +43,10 @@ export function useTodos() {
     }, []);
 
     // 切換待辦事項完成狀態
-    const toggleTodo = useCallback(async (id: string) => {
+    const handleToggleTodo = useCallback(async (id: string) => {
         try {
             setError(null);
-            await todoDB.toggleTodo(id);
+            await toggleTodo(id);
             setTodos((prev) =>
                 prev.map((todo) =>
                     todo.id === id ? { ...todo, completed: !todo.completed, updatedAt: new Date() } : todo
@@ -49,10 +58,10 @@ export function useTodos() {
     }, []);
 
     // 刪除待辦事項
-    const deleteTodo = useCallback(async (id: string) => {
+    const handleDeleteTodo = useCallback(async (id: string) => {
         try {
             setError(null);
-            await todoDB.deleteTodo(id);
+            await deleteTodo(id);
             setTodos((prev) => prev.filter((todo) => todo.id !== id));
         } catch (err) {
             setError(err instanceof Error ? err.message : '刪除待辦事項時發生錯誤');
@@ -60,10 +69,10 @@ export function useTodos() {
     }, []);
 
     // 更新待辦事項標題
-    const updateTodoTitle = useCallback(async (id: string, newTitle: string) => {
+    const handleUpdateTodoTitle = useCallback(async (id: string, newTitle: string) => {
         try {
             setError(null);
-            await todoDB.updateTodo(id, { title: newTitle });
+            await updateTodo(id, { title: newTitle });
             setTodos((prev) =>
                 prev.map((todo) => (todo.id === id ? { ...todo, title: newTitle, updatedAt: new Date() } : todo))
             );
@@ -73,10 +82,10 @@ export function useTodos() {
     }, []);
 
     // 清空所有待辦事項
-    const clearAllTodos = useCallback(async () => {
+    const handleClearAllTodos = useCallback(async () => {
         try {
             setError(null);
-            await todoDB.clearAllTodos();
+            await clearAllTodos();
             setTodos([]);
         } catch (err) {
             setError(err instanceof Error ? err.message : '清空待辦事項時發生錯誤');
@@ -99,11 +108,11 @@ export function useTodos() {
         todos,
         loading,
         error,
-        addTodo,
-        toggleTodo,
-        deleteTodo,
-        updateTodoTitle,
-        clearAllTodos,
+        addTodo: handleAddTodo,
+        toggleTodo: handleToggleTodo,
+        deleteTodo: handleDeleteTodo,
+        updateTodoTitle: handleUpdateTodoTitle,
+        clearAllTodos: handleClearAllTodos,
         stats,
     };
 }
